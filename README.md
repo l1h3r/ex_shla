@@ -1,11 +1,17 @@
-# ExShla
+# ExShla - The Rick and Morty API Wrapper
 
-**TODO: Add description**
+> Hey, did you ever want to hold a terry fold?,
+>  I got one right here, grab my terry flap.
+
+**Elixir client for the Rick and Morty API**
+
+[The Rick and Morty API](https://rickandmortyapi.com) (or ShlaAPI) is a RESTful API based on the television show [Rick and Morty](https://www.adultswim.com/videos/rick-and-morty). You will access to data about hundreds of characters, images, locations and episodes.
+
+**To get started check the documentation on [rickandmortyapi.com](https://rickandmortyapi.com/documentation)**
 
 ## Installation
 
-If [available in Hex](https://hex.pm/docs/publish), the package can be installed
-by adding `ex_shla` to your list of dependencies in `mix.exs`:
+Add `ex_shla` to your list of dependencies in `mix.exs`:
 
 ```elixir
 def deps do
@@ -15,7 +21,125 @@ def deps do
 end
 ```
 
-Documentation can be generated with [ExDoc](https://github.com/elixir-lang/ex_doc)
-and published on [HexDocs](https://hexdocs.pm). Once published, the docs can
-be found at [https://hexdocs.pm/ex_shla](https://hexdocs.pm/ex_shla).
+## Usage
 
+### Get API Info
+
+```elixir
+iex> ExShla.info()
+%{
+  characters: "https://rickandmortyapi.com/api/character",
+  episodes: "https://rickandmortyapi.com/api/episode",
+  locations: "https://rickandmortyapi.com/api/location"
+}
+```
+
+### Get a character by id
+
+```elixir
+iex> ExShla.character(1)
+%ExShla.Resource.Character{
+  created: "2017-11-04T18:48:46.250Z",
+  episode: [
+    "https://rickandmortyapi.com/api/episode/1",
+    ...
+  ],
+  gender: "Male",
+  id: 1,
+  image: "https://rickandmortyapi.com/api/character/avatar/1.jpeg",
+  location: %{
+    name: "Earth (Replacement Dimension)",
+    url: "https://rickandmortyapi.com/api/location/20"
+  },
+  name: "Rick Sanchez",
+  origin: %{
+    name: "Earth (C-137)",
+    url: "https://rickandmortyapi.com/api/location/1"
+  },
+  species: "Human",
+  status: "Alive",
+  type: "",
+  url: "https://rickandmortyapi.com/api/character/1"
+}
+```
+
+### Get all characters (paginated)
+
+```elixir
+iex> ExShla.characters()
+%{
+  data: [%ExShla.Resource.Character{}, ...],
+  meta: %ExShla.Meta{
+    count: 394,
+    next: "https://rickandmortyapi.com/api/character/?page=2",
+    pages: 20,
+    prev: ""
+  }
+}
+```
+
+### Get an episode by id
+
+```elixir
+iex> ExShla.episode(1)
+%ExShla.Resource.Episode{
+  air_date: "December 2, 2013",
+  characters: [
+    "https://rickandmortyapi.com/api/character/1",
+    ...
+  ]
+  created: "2017-11-10T12:56:33.798Z",
+  episode: "S01E01",
+  id: 1,
+  name: "Pilot",
+  url: "https://rickandmortyapi.com/api/episode/1"
+}
+```
+
+### Get all episodes (paginated)
+
+```elixir
+iex> ExShla.episodes()
+%{
+  data: [%ExShla.Resource.Episode{}, ...],
+  meta: %ExShla.Meta{
+    count: 31,
+    next: "https://rickandmortyapi.com/api/episode/?page=2",
+    pages: 2,
+    prev: ""
+  }
+}
+```
+
+### Get a location by id
+
+```elixir
+iex> ExShla.location(1)
+%ExShla.Resource.Location{
+  created: "2017-11-10T12:42:04.162Z",
+  dimension: "Dimension C-137",
+  id: 1,
+  name: "Earth (C-137)",
+  residents: [
+    "https://rickandmortyapi.com/api/character/38",
+    ...
+  ],
+  type: "Planet",
+  url: "https://rickandmortyapi.com/api/location/1"
+}
+```
+
+### Get all locations (paginated)
+
+```elixir
+iex> ExShla.locations()
+%{
+  data: [%ExShla.Resource.Location{}, ...],
+  meta: %ExShla.Meta{
+    count: 67,
+    next: "https://rickandmortyapi.com/api/location/?page=2",
+    pages: 4,
+    prev: ""
+  }
+}
+```
