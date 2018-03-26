@@ -38,7 +38,7 @@ iex> ExShla.info()
 
 ```elixir
 iex> ExShla.character(1)
-%ExShla.Resource.Character{
+{:ok, %ExShla.Resource.Character{
   created: "2017-11-04T18:48:46.250Z",
   episode: [
     "https://rickandmortyapi.com/api/episode/1",
@@ -60,14 +60,14 @@ iex> ExShla.character(1)
   status: "Alive",
   type: "",
   url: "https://rickandmortyapi.com/api/character/1"
-}
+}}
 ```
 
 ### Get all characters (paginated)
 
 ```elixir
 iex> ExShla.characters()
-%{
+{:ok, %{
   data: [%ExShla.Resource.Character{}, ...],
   meta: %ExShla.Meta{
     count: 394,
@@ -75,14 +75,14 @@ iex> ExShla.characters()
     pages: 20,
     prev: ""
   }
-}
+}}
 ```
 
 ### Get an episode by id
 
 ```elixir
 iex> ExShla.episode(1)
-%ExShla.Resource.Episode{
+{:ok, %ExShla.Resource.Episode{
   air_date: "December 2, 2013",
   characters: [
     "https://rickandmortyapi.com/api/character/1",
@@ -93,14 +93,14 @@ iex> ExShla.episode(1)
   id: 1,
   name: "Pilot",
   url: "https://rickandmortyapi.com/api/episode/1"
-}
+}}
 ```
 
 ### Get all episodes (paginated)
 
 ```elixir
 iex> ExShla.episodes()
-%{
+{:ok, %{
   data: [%ExShla.Resource.Episode{}, ...],
   meta: %ExShla.Meta{
     count: 31,
@@ -108,14 +108,14 @@ iex> ExShla.episodes()
     pages: 2,
     prev: ""
   }
-}
+}}
 ```
 
 ### Get a location by id
 
 ```elixir
 iex> ExShla.location(1)
-%ExShla.Resource.Location{
+{:ok, %ExShla.Resource.Location{
   created: "2017-11-10T12:42:04.162Z",
   dimension: "Dimension C-137",
   id: 1,
@@ -126,14 +126,14 @@ iex> ExShla.location(1)
   ],
   type: "Planet",
   url: "https://rickandmortyapi.com/api/location/1"
-}
+}}
 ```
 
 ### Get all locations (paginated)
 
 ```elixir
 iex> ExShla.locations()
-%{
+{:ok, %{
   data: [%ExShla.Resource.Location{}, ...],
   meta: %ExShla.Meta{
     count: 67,
@@ -141,5 +141,5 @@ iex> ExShla.locations()
     pages: 4,
     prev: ""
   }
-}
+}}
 ```
