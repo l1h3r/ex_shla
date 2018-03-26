@@ -1,13 +1,7 @@
 defmodule ExShla.Resource do
   @moduledoc """
-  ExShla Resource
+  Internal macro(s) for shared resource behaviour
   """
-  @type result :: {:ok, map} | {:error, atom | binary}
-
-  @callback all(opts :: keyword) :: result
-
-  @callback one(id :: binary) :: result
-
   defmacro __using__(opts) do
     quote do
       alias ExShla.{
@@ -16,21 +10,21 @@ defmodule ExShla.Resource do
         Resource
       }
 
-      @type expanded :: %{meta: Meta.t(), data: [t]}
+      @type member :: {:ok, map} | {:error, atom | binary}
+
+      @type collection :: {:ok, data} | {:error, atom | binary}
+
+      @type data :: %{meta: Meta.t(), data: [t]}
 
       @name Keyword.fetch!(unquote(opts), :name)
 
-      @attrs Keyword.fetch!(unquote(opts), :attrs)
+      @enforce_keys Keyword.fetch!(unquote(opts), :keys)
 
       @filters [:page | Keyword.get(unquote(opts), :filters, [])]
 
-      @enforce_keys Keyword.keys(@attrs)
+      defstruct @enforce_keys
 
-      defstruct @attrs
-
-      @behaviour Resource
-
-      @impl true
+      @spec all(opts :: keyword) :: collection
       def all(opts \\ []) do
         with {:ok, response} <- Client.get("/#{@name}/?#{to_query(opts)}"),
              {:ok, body} <- Client.parse(response) do
@@ -38,7 +32,7 @@ defmodule ExShla.Resource do
         end
       end
 
-      @impl true
+      @spec one(id :: binary) :: member
       def one(id) do
         with {:ok, response} <- Client.get("/#{@name}/#{id}/"),
              {:ok, body} <- Client.parse(response) do
@@ -46,16 +40,17 @@ defmodule ExShla.Resource do
         end
       end
 
-      @spec expand(body :: map) :: expanded
+      @spec expand(body :: map) :: data
       defp expand(%{results: results, info: info}) do
         %{
           meta: struct!(Meta, info),
-          data: Enum.map(results, &to_struct/1)
+          data: to_struct(results)
         }
       end
 
-      @spec to_struct(attrs :: map) :: t
-      defp to_struct(attrs), do: struct!(__MODULE__, attrs)
+      @spec to_struct(data :: map | [map]) :: struct
+      defp to_struct(data) when is_list(data), do: Enum.map(data, &to_struct/1)
+      defp to_struct(data) when is_map(data), do: struct!(__MODULE__, data)
 
       @spec to_query(opts :: keyword) :: binary
       defp to_query(opts), do: opts |> Keyword.take(@filters) |> URI.encode_query()

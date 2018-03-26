@@ -1,17 +1,26 @@
 defmodule ExShla.Meta do
   @moduledoc """
-  ExShla Meta
+  Metadata from an API response
+
+  ## Attributes
+
+    `count` The length of the response
+
+    `pages` The amount of pages
+
+    `next` Link to the next page (*if it exists*)
+
+    `prev` Link to the previous page (*if it exists*)
+
   """
-  @attrs [
-    count: 0,
-    pages: 0,
-    next: "",
-    prev: ""
+  @enforce_keys [
+    :count,
+    :pages,
+    :next,
+    :prev
   ]
 
-  @enforce_keys Keyword.keys(@attrs)
-
-  defstruct @attrs
+  defstruct @enforce_keys
 
   @type t :: %__MODULE__{
           count: integer,

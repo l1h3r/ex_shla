@@ -1,6 +1,6 @@
 defmodule ExShla.Client do
   @moduledoc """
-  ExShla Client
+  Internal module for API communication
   """
   use HTTPoison.Base
 
@@ -9,8 +9,8 @@ defmodule ExShla.Client do
     Error
   }
 
-  @type response :: Response.t() | Error.t()
-  @type parsed :: {:ok, binary} | {:error, atom | binary}
+  @type reason :: :too_many_requests | :redirected | :bad_json | binary
+  @type parsed :: {:ok, map} | {:error, reason}
 
   @headers [{~s(Content-Type), ~s(application/json; charset=utf-8)}]
 
@@ -21,9 +21,10 @@ defmodule ExShla.Client do
   @doc """
   Parses the HTTPoison response.
   """
-  @spec parse(response :: response) :: parsed
+  @spec parse(response :: Response.t() | Error.t()) :: parsed
   def parse(%Response{body: %{error: reason}}), do: {:error, reason}
   def parse(%Response{status_code: 429}), do: {:error, :too_many_requests}
+  def parse(%Response{status_code: 301}), do: {:error, :redirected}
   def parse(%Response{status_code: 200, body: body}), do: {:ok, body}
   def parse(%Error{reason: reason}), do: {:error, reason}
 
@@ -36,15 +37,17 @@ defmodule ExShla.Client do
       %{key: "value"}
 
       iex> process_response_body("not json")
-      "not json"
+      %{error: :bad_json, data: "not json"}
 
   """
-  @spec process_response_body(body :: binary) :: binary
+  @spec process_response_body(body :: binary) :: map
   def process_response_body(body) do
-    Poison.decode!(body, keys: :atoms!)
-  rescue
-    _ in Poison.SyntaxError ->
-      body
+    case Poison.decode(body, keys: :atoms!) do
+      {:ok, data} ->
+        data
+      _ ->
+        %{error: :bad_json, data: body}
+    end
   end
 
   # ======= #
