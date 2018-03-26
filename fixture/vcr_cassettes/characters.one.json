@@ -1,0 +1,66 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 15000
+      },
+      "request_body": "",
+      "url": "https://rickandmortyapi.com/api/character/1/"
+    },
+    "response": {
+      "binary": false,
+      "body": "{\"id\":1,\"name\":\"Rick Sanchez\",\"status\":\"Alive\",\"species\":\"Human\",\"type\":\"\",\"gender\":\"Male\",\"origin\":{\"name\":\"Earth (C-137)\",\"url\":\"https://rickandmortyapi.com/api/location/1\"},\"location\":{\"name\":\"Earth (Replacement Dimension)\",\"url\":\"https://rickandmortyapi.com/api/location/20\"},\"image\":\"https://rickandmortyapi.com/api/character/avatar/1.jpeg\",\"episode\":[\"https://rickandmortyapi.com/api/episode/1\",\"https://rickandmortyapi.com/api/episode/2\",\"https://rickandmortyapi.com/api/episode/3\",\"https://rickandmortyapi.com/api/episode/4\",\"https://rickandmortyapi.com/api/episode/5\",\"https://rickandmortyapi.com/api/episode/6\",\"https://rickandmortyapi.com/api/episode/7\",\"https://rickandmortyapi.com/api/episode/8\",\"https://rickandmortyapi.com/api/episode/9\",\"https://rickandmortyapi.com/api/episode/10\",\"https://rickandmortyapi.com/api/episode/11\",\"https://rickandmortyapi.com/api/episode/12\",\"https://rickandmortyapi.com/api/episode/13\",\"https://rickandmortyapi.com/api/episode/14\",\"https://rickandmortyapi.com/api/episode/15\",\"https://rickandmortyapi.com/api/episode/16\",\"https://rickandmortyapi.com/api/episode/17\",\"https://rickandmortyapi.com/api/episode/18\",\"https://rickandmortyapi.com/api/episode/19\",\"https://rickandmortyapi.com/api/episode/20\",\"https://rickandmortyapi.com/api/episode/21\",\"https://rickandmortyapi.com/api/episode/22\",\"https://rickandmortyapi.com/api/episode/23\",\"https://rickandmortyapi.com/api/episode/24\",\"https://rickandmortyapi.com/api/episode/25\",\"https://rickandmortyapi.com/api/episode/26\",\"https://rickandmortyapi.com/api/episode/27\",\"https://rickandmortyapi.com/api/episode/28\",\"https://rickandmortyapi.com/api/episode/29\",\"https://rickandmortyapi.com/api/episode/30\",\"https://rickandmortyapi.com/api/episode/31\"],\"url\":\"https://rickandmortyapi.com/api/character/1\",\"created\":\"2017-11-04T18:48:46.250Z\"}",
+      "headers": {
+        "Server": "nginx/1.10.3 (Ubuntu)",
+        "Date": "Sun, 25 Mar 2018 22:33:31 GMT",
+        "Content-Type": "application/json; charset=utf-8",
+        "Content-Length": "1833",
+        "Connection": "keep-alive",
+        "X-Powered-By": "Express",
+        "ETag": "W/\"729-fQwY48FCvT7wnBdjr+I/4x8KEXc\"",
+        "Access-Control-Allow-Origin": "*",
+        "Expires": "Sun, 25 Mar 2018 22:38:31 GMT",
+        "Cache-Control": "max-age=300"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  },
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 15000
+      },
+      "request_body": "",
+      "url": "https://rickandmortyapi.com/api/character/25/"
+    },
+    "response": {
+      "binary": false,
+      "body": "{\"id\":25,\"name\":\"Armothy\",\"status\":\"Dead\",\"species\":\"unknown\",\"type\":\"Self-aware arm\",\"gender\":\"Male\",\"origin\":{\"name\":\"Post-Apocalyptic Earth\",\"url\":\"https://rickandmortyapi.com/api/location/8\"},\"location\":{\"name\":\"Post-Apocalyptic Earth\",\"url\":\"https://rickandmortyapi.com/api/location/8\"},\"image\":\"https://rickandmortyapi.com/api/character/avatar/25.jpeg\",\"episode\":[\"https://rickandmortyapi.com/api/episode/23\"],\"url\":\"https://rickandmortyapi.com/api/character/25\",\"created\":\"2017-11-05T08:54:29.343Z\"}",
+      "headers": {
+        "Server": "nginx/1.10.3 (Ubuntu)",
+        "Date": "Sun, 25 Mar 2018 22:33:31 GMT",
+        "Content-Type": "application/json; charset=utf-8",
+        "Content-Length": "506",
+        "Connection": "keep-alive",
+        "X-Powered-By": "Express",
+        "ETag": "W/\"1fa-BxrQgV+0ip40M462y8WcHQH5CPI\"",
+        "Access-Control-Allow-Origin": "*",
+        "Expires": "Sun, 25 Mar 2018 22:38:31 GMT",
+        "Cache-Control": "max-age=300"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]

@@ -1,0 +1,34 @@
+[
+  {
+    "request": {
+      "body": "",
+      "headers": {
+        "Content-Type": "application/json; charset=utf-8"
+      },
+      "method": "get",
+      "options": {
+        "recv_timeout": 15000
+      },
+      "request_body": "",
+      "url": "https://rickandmortyapi.com/api/character/?type=cyborg"
+    },
+    "response": {
+      "binary": false,
+      "body": "{\"info\":{\"count\":2,\"pages\":1,\"next\":\"\",\"prev\":\"\"},\"results\":[{\"id\":16,\"name\":\"Amish Cyborg\",\"status\":\"Dead\",\"species\":\"Alien\",\"type\":\"Parasite, Cyborg\",\"gender\":\"Male\",\"origin\":{\"name\":\"unknown\",\"url\":\"\"},\"location\":{\"name\":\"Earth (Replacement Dimension)\",\"url\":\"https://rickandmortyapi.com/api/location/20\"},\"image\":\"https://rickandmortyapi.com/api/character/avatar/16.jpeg\",\"episode\":[\"https://rickandmortyapi.com/api/episode/15\"],\"url\":\"https://rickandmortyapi.com/api/character/16\",\"created\":\"2017-11-04T21:12:45.235Z\"},{\"id\":198,\"name\":\"Lady Katana\",\"status\":\"Dead\",\"species\":\"Humanoid\",\"type\":\"Cyborg\",\"gender\":\"Female\",\"origin\":{\"name\":\"unknown\",\"url\":\"\"},\"location\":{\"name\":\"Dorian 5\",\"url\":\"https://rickandmortyapi.com/api/location/29\"},\"image\":\"https://rickandmortyapi.com/api/character/avatar/198.jpeg\",\"episode\":[\"https://rickandmortyapi.com/api/episode/25\"],\"url\":\"https://rickandmortyapi.com/api/character/198\",\"created\":\"2017-12-30T12:43:37.571Z\"}]}",
+      "headers": {
+        "Server": "nginx/1.10.3 (Ubuntu)",
+        "Date": "Sun, 25 Mar 2018 22:33:24 GMT",
+        "Content-Type": "application/json; charset=utf-8",
+        "Content-Length": "964",
+        "Connection": "keep-alive",
+        "X-Powered-By": "Express",
+        "ETag": "W/\"3c4-Gq1fx6RTjLPRD9ILMJImjeGrvng\"",
+        "Access-Control-Allow-Origin": "*",
+        "Expires": "Sun, 25 Mar 2018 22:38:24 GMT",
+        "Cache-Control": "max-age=300"
+      },
+      "status_code": 200,
+      "type": "ok"
+    }
+  }
+]

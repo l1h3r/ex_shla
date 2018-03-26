@@ -32,6 +32,7 @@ defmodule ExShla.MixProject do
       {:poison, "~> 3.1.0"},
       {:httpoison, "~> 1.0.0"},
       {:exvcr, "~> 0.10.1", only: :test},
+      {:ex_doc, "~> 0.18.3", only: :dev},
       {:excoveralls, "~> 0.8.1", only: [:dev, :test]},
       {:dialyxir, "~> 0.5.1", only: [:dev, :test], runtime: false},
       {:credo, "~> 0.9.0-rc8", only: [:dev, :test], runtime: false}
