@@ -6,6 +6,7 @@ defmodule ExShla.MixProject do
       app: :ex_shla,
       version: "0.1.0",
       elixir: "~> 1.6",
+      name: "ExShla",
       start_permanent: Mix.env() == :prod,
       deps: deps(),
       aliases: aliases(),
@@ -15,7 +16,10 @@ defmodule ExShla.MixProject do
         coveralls: :test,
         "coveralls.detail": :test,
         "coveralls.html": :test
-      ]
+      ],
+      package: package(),
+      description: description(),
+      source_url: "https://github.com/l1h3r/ex_shla"
     ]
   end
 
@@ -43,6 +47,19 @@ defmodule ExShla.MixProject do
   defp aliases do
     [
       lint: ["dialyzer", "credo", "test"]
+    ]
+  end
+
+  defp description do
+    ~s(Elixir client for the Rick and Morty API.)
+  end
+
+  defp package do
+    [
+      files: ["lib", "mix.exs", "README.md", "LICENSE.md"],
+      maintainers: ["l1h3r"],
+      licenses: ["MIT"],
+      links: %{"Github" => "https://github.com/l1h3r/ex_shla"}
     ]
   end
 
