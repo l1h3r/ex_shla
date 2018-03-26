@@ -1,5 +1,10 @@
 # ExShla - The Rick and Morty API Wrapper
 
+[![Build Status](https://travis-ci.org/l1h3r/ex_shla.svg?branch=master)](https://travis-ci.org/l1h3r/ex_shla)
+[![Coverage Status](https://coveralls.io/repos/github/l1h3r/ex_shla/badge.svg?branch=master)](https://coveralls.io/github/l1h3r/ex_shla?branch=master)
+[![Hex.pm](https://img.shields.io/hexpm/v/ex_shla.svg?style=flat-square)](https://hex.pm/packages/ex_shla)
+[![Hex.pm](https://img.shields.io/hexpm/dt/ex_shla.svg?style=flat-square)](https://hex.pm/packages/ex_shla)
+
 > Hey, did you ever want to hold a terry fold?,
 >  I got one right here, grab my terry flap.
 
