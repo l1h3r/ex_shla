@@ -2,61 +2,64 @@ defmodule ExShla.Client do
   @moduledoc """
   Internal module for API communication
   """
-  use HTTPoison.Base
+  defmacro __using__(opts) do
+    quote do
+      require ExShla.Client
+      import ExShla.Client
 
-  alias HTTPoison.{
-    Response,
-    Error
-  }
+      use Tesla,
+        only: ~w(get)a,
+        docs: false
 
-  @type reason :: :too_many_requests | :redirected | :bad_json | binary
-  @type parsed :: {:ok, map} | {:error, reason}
+      alias ExShla.Meta
 
-  @headers [{~s(Content-Type), ~s(application/json; charset=utf-8)}]
+      @name unquote(opts) |> Keyword.fetch!(:name) |> to_string()
 
-  @options [recv_timeout: 15_000]
+      @filter unquote(opts) |> Keyword.get(:filter, [])
 
-  @endpoint ~s(https://rickandmortyapi.com/api)
+      plug(ExShla.Middleware.Error)
 
-  @doc """
-  Parses the HTTPoison response.
-  """
-  @spec parse(response :: Response.t() | Error.t()) :: parsed
-  def parse(%Response{body: %{error: reason}}), do: {:error, reason}
-  def parse(%Response{status_code: 429}), do: {:error, :too_many_requests}
-  def parse(%Response{status_code: 301}), do: {:error, :redirected}
-  def parse(%Response{status_code: 200, body: body}), do: {:ok, body}
-  def parse(%Error{reason: reason}), do: {:error, reason}
+      plug(Tesla.Middleware.Tuples)
+      plug(Tesla.Middleware.BaseUrl, ~s(https://rickandmortyapi.com/api/))
+      plug(Tesla.Middleware.FollowRedirects, max_redirects: 1)
+      plug(Tesla.Middleware.Timeout, timeout: 15_000)
+      plug(Tesla.Middleware.DecodeJson, engine_opts: [keys: :atoms!])
 
-  @doc """
-  Processes the response body before returning to the caller.
+      if Mix.env() == :dev, do: plug(Tesla.Middleware.Logger)
 
-  ## Examples
+      plug(ExShla.Middleware.Filter, @filter)
 
-      iex> process_response_body(~s({"key":"value"}))
-      %{key: "value"}
+      @type data :: %{meta: Meta.t(), data: [t]}
+      @type reason :: atom | binary
+      @type error :: {:error, reason}
+      @type success :: {:ok, struct} | {:ok, data}
+      @type result :: success | error
 
-      iex> process_response_body("not json")
-      %{error: :bad_json, data: "not json"}
+      @spec one(id :: integer) :: result
+      def one(id) do
+        with {:ok, %Tesla.Env{body: body}} <- get("#{@name}/#{id}/") do
+          {:ok, struct!(__MODULE__, body)}
+        end
+      end
 
-  """
-  @spec process_response_body(body :: binary) :: map
-  def process_response_body(body) do
-    case Poison.decode(body, keys: :atoms!) do
-      {:ok, data} ->
-        data
-      _ ->
-        %{error: :bad_json, data: body}
+      @spec all(query :: keyword) :: result
+      def all(query \\ []) do
+        with {:ok, %Tesla.Env{body: body}} <- get("#{@name}/", query: query) do
+          {:ok, expand_data(body)}
+        end
+      end
+
+      @doc false
+      @spec __info__ :: map
+      def __info__, do: get("/")
+
+      @spec expand_data(body :: map) :: data
+      defp expand_data(%{results: results, info: info}) do
+        %{
+          meta: struct!(Meta, info),
+          data: Enum.map(results, &struct!(__MODULE__, &1))
+        }
+      end
     end
   end
-
-  # ======= #
-  # Private #
-  # ======= #
-
-  defp process_request_headers(headers), do: headers ++ @headers
-
-  defp process_request_options(options), do: options ++ @options
-
-  defp process_url(url), do: @endpoint <> url
 end

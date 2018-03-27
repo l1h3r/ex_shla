@@ -8,15 +8,11 @@ defmodule ExShla.MixProject do
       elixir: "~> 1.6",
       name: "ExShla",
       start_permanent: Mix.env() == :prod,
+      elixirc_paths: elixirc_paths(Mix.env()),
       deps: deps(),
       aliases: aliases(),
       dialyzer: dialyzer(),
       test_coverage: [tool: ExCoveralls],
-      preferred_cli_env: [
-        coveralls: :test,
-        "coveralls.detail": :test,
-        "coveralls.html": :test
-      ],
       package: package(),
       description: description(),
       source_url: "https://github.com/l1h3r/ex_shla"
@@ -30,12 +26,15 @@ defmodule ExShla.MixProject do
     ]
   end
 
+  # Specifies which paths to compile per environment.
+  defp elixirc_paths(:test), do: ~w(lib test/support)
+  defp elixirc_paths(_), do: ~w(lib)
+
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
       {:poison, "~> 3.1.0"},
-      {:httpoison, "~> 1.0.0"},
-      {:exvcr, "~> 0.10.1", only: :test},
+      {:tesla, "~> 0.10.0"},
       {:ex_doc, "~> 0.18.3", only: :dev},
       {:excoveralls, "~> 0.8.1", only: [:dev, :test]},
       {:dialyxir, "~> 0.5.1", only: [:dev, :test], runtime: false},

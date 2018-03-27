@@ -19,18 +19,13 @@ defmodule ExShla.Resource.Location do
     `created` Time at which the location was created in the database.
 
   """
-  use ExShla.Resource,
+  @enforce_keys ~w(id name type dimension residents url created)a
+
+  defstruct @enforce_keys
+
+  use ExShla.Client,
     name: :location,
-    filters: ~w(name type dimension)a,
-    keys: [
-      :id,
-      :name,
-      :type,
-      :dimension,
-      :residents,
-      :url,
-      :created
-    ]
+    filter: ~w(name type dimension)a
 
   @type t :: %__MODULE__{
           id: integer,

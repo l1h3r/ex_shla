@@ -29,23 +29,13 @@ defmodule ExShla.Resource.Character do
     `created` Time at which the character was created in the database.
 
   """
-  use ExShla.Resource,
+  @enforce_keys ~w(id name status species type gender origin location image episode url created)a
+
+  defstruct @enforce_keys
+
+  use ExShla.Client,
     name: :character,
-    filters: ~w(name status species type gender)a,
-    keys: [
-      :id,
-      :name,
-      :status,
-      :species,
-      :type,
-      :gender,
-      :origin,
-      :location,
-      :image,
-      :episode,
-      :url,
-      :created
-    ]
+    filter: ~w(name status species type gender)a
 
   @type t :: %__MODULE__{
           id: integer,

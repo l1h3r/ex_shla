@@ -1,6 +1,5 @@
 defmodule ExShlaTest do
-  use ExUnit.Case, async: true
-  use ExVCR.Mock, adapter: ExVCR.Adapter.Hackney
+  use ExUnit.Case
 
   alias ExShla.{
     Meta,
@@ -9,67 +8,80 @@ defmodule ExShlaTest do
     Resource.Location
   }
 
+  alias Tesla.{
+    Adapter.Httpc,
+    Mock
+  }
+
   @invalid_num "Hey! that parameter is not allowed, try with a number instead ;)"
 
   setup_all do
-    {:ok, _} = HTTPoison.start()
+    {:ok, _} = start_supervised(LazFix)
+
+    Mock.mock_global(fn
+      %{method: :get, url: url, query: query} = env ->
+        fallback = fn ->
+          env
+          |> Httpc.call([])
+          |> Map.get(:body)
+          |> Poison.decode!(keys: :atoms!)
+        end
+
+        data =
+          url
+          |> Tesla.build_url(query)
+          |> LazFix.get(fallback)
+
+        {200, %{}, data}
+    end)
+
     :ok
   end
 
   def assert_pagination(name, count, pages) do
-    use_cassette "#{name}.all.pagination" do
-      assert {:ok, result} = apply(ExShla, name, [])
+    assert {:ok, result} = apply(ExShla, name, [])
 
-      meta = Map.get(result, :meta)
-      data = Map.get(result, :data)
+    meta = Map.get(result, :meta)
+    data = Map.get(result, :data)
 
-      assert %Meta{} = meta
-      assert meta.count == count
-      assert meta.pages == pages
-      assert Enum.count(data) == 20
-    end
+    assert %Meta{} = meta
+    assert meta.count == count
+    assert meta.pages == pages
+    assert Enum.count(data) == 20
   end
 
   def assert_filter(name, count, {key, value}) do
-    use_cassette "#{name}.filter.#{key}" do
-      assert {:ok, result} = apply(ExShla, name, [[{key, value}]])
+    assert {:ok, result} = apply(ExShla, name, [[{key, value}]])
 
-      data = Map.get(result, :data)
+    data = Map.get(result, :data)
 
-      assert Enum.count(data) == count
+    assert Enum.count(data) == count
 
-      Enum.each(data, fn resource ->
-        assert Map.has_key?(resource, key)
-        assert Map.get(resource, key) =~ ~r/#{value}/i
-      end)
-    end
+    Enum.each(data, fn resource ->
+      assert Map.has_key?(resource, key)
+      assert Map.get(resource, key) =~ ~r/#{value}/i
+    end)
   end
 
   describe "info" do
     test "returns API urls" do
-      use_cassette "info" do
-        data = ExShla.info()
+      data = ExShla.info()
 
-        assert Map.has_key?(data, :characters)
-        assert Map.has_key?(data, :episodes)
-        assert Map.has_key?(data, :locations)
-      end
+      assert Map.has_key?(data, :characters)
+      assert Map.has_key?(data, :episodes)
+      assert Map.has_key?(data, :locations)
     end
   end
 
   describe "characters" do
     test "character/1 returns a character by id" do
-      use_cassette "characters.one" do
-        assert {:ok, %Character{name: "Rick Sanchez", id: 1}} = ExShla.character(1)
-        assert {:ok, %Character{name: "Armothy", id: 25}} = ExShla.character(25)
-      end
+      assert {:ok, %Character{name: "Rick Sanchez", id: 1}} = ExShla.character(1)
+      assert {:ok, %Character{name: "Armothy", id: 25}} = ExShla.character(25)
     end
 
     test "character/1 returns error when invalid id" do
-      use_cassette "characters.badid" do
-        assert {:error, "Character not found"} = ExShla.character(-1)
-        assert {:error, @invalid_num} = ExShla.character("test")
-      end
+      assert {:error, "Character not found"} = ExShla.character(-1)
+      assert {:error, @invalid_num} = ExShla.character("test")
     end
 
     test "characters/0 returns all characters with pagination" do
@@ -104,10 +116,8 @@ defmodule ExShlaTest do
     end
 
     test "episode/1 returns error when invalid id" do
-      use_cassette "episodes.badid" do
-        assert {:error, "Episode not found"} = ExShla.episode(-1)
-        assert {:error, @invalid_num} = ExShla.episode("test")
-      end
+      assert {:error, "Episode not found"} = ExShla.episode(-1)
+      assert {:error, @invalid_num} = ExShla.episode("test")
     end
 
     test "episodes/0 returns all episodes with pagination" do
@@ -130,10 +140,8 @@ defmodule ExShlaTest do
     end
 
     test "location/1 returns error when invalid id" do
-      use_cassette "locations.badid" do
-        assert {:error, "Location not found"} = ExShla.location(-1)
-        assert {:error, @invalid_num} = ExShla.location("test")
-      end
+      assert {:error, "Location not found"} = ExShla.location(-1)
+      assert {:error, @invalid_num} = ExShla.location("test")
     end
 
     test "locations/0 returns all locations with pagination" do

@@ -19,18 +19,13 @@ defmodule ExShla.Resource.Episode do
     `created` Time at which the episode was created in the database.
 
   """
-  use ExShla.Resource,
+  @enforce_keys ~w(id name air_date episode characters url created)a
+
+  defstruct @enforce_keys
+
+  use ExShla.Client,
     name: :episode,
-    filters: ~w(name episode)a,
-    keys: [
-      :id,
-      :name,
-      :air_date,
-      :episode,
-      :characters,
-      :url,
-      :created
-    ]
+    filter: ~w(name episode)a
 
   @type t :: %__MODULE__{
           id: integer,
