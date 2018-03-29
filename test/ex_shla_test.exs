@@ -8,35 +8,7 @@ defmodule ExShlaTest do
     Resource.Location
   }
 
-  alias Tesla.{
-    Adapter.Httpc,
-    Mock
-  }
-
   @invalid_num "Hey! that parameter is not allowed, try with a number instead ;)"
-
-  setup_all do
-    {:ok, _} = start_supervised(LazFix)
-
-    Mock.mock_global(fn
-      %{method: :get, url: url, query: query} = env ->
-        fallback = fn ->
-          env
-          |> Httpc.call([])
-          |> Map.get(:body)
-          |> Poison.decode!(keys: :atoms!)
-        end
-
-        data =
-          url
-          |> Tesla.build_url(query)
-          |> LazFix.get(fallback)
-
-        {200, %{}, data}
-    end)
-
-    :ok
-  end
 
   def assert_pagination(name, count, pages) do
     assert {:ok, result} = apply(ExShla, name, [])

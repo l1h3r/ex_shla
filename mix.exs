@@ -35,6 +35,7 @@ defmodule ExShla.MixProject do
     [
       {:poison, "~> 3.1.0"},
       {:tesla, "~> 0.10.0"},
+      {:tesla_replay, "~> 0.1.1"},
       {:ex_doc, "~> 0.18.3", only: :dev},
       {:excoveralls, "~> 0.8.1", only: [:dev, :test]},
       {:dialyxir, "~> 0.5.1", only: [:dev, :test], runtime: false},
