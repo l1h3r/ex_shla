@@ -23,7 +23,7 @@ defmodule ExShla.Client do
       plug(Tesla.Middleware.BaseUrl, ~s(https://rickandmortyapi.com/api/))
       plug(Tesla.Middleware.FollowRedirects, max_redirects: 1)
       plug(Tesla.Middleware.Timeout, timeout: 15_000)
-      plug(Tesla.Middleware.DecodeJson, engine_opts: [keys: :atoms!])
+      plug(Tesla.Middleware.DecodeJson, engine_opts: [keys: :atoms])
 
       if Mix.env() == :dev, do: plug(Tesla.Middleware.Logger)
       if Mix.env() == :test, do: plug(Tesla.Middleware.Replay, status: :all)
