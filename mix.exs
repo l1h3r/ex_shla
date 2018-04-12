@@ -6,7 +6,7 @@ defmodule ExShla.MixProject do
   def project do
     [
       app: :ex_shla,
-      version: "0.1.2",
+      version: "0.1.3",
       elixir: "~> 1.6",
       name: "ExShla",
       package: package(),
