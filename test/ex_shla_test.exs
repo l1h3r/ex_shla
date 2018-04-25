@@ -57,7 +57,7 @@ defmodule ExShlaTest do
     end
 
     test "characters/0 returns all characters with pagination" do
-      assert_pagination(:characters, 394, 20)
+      assert_pagination(:characters, 436, 22)
     end
 
     test "characters/1 filters by name" do
@@ -117,11 +117,11 @@ defmodule ExShlaTest do
     end
 
     test "locations/0 returns all locations with pagination" do
-      assert_pagination(:locations, 67, 4)
+      assert_pagination(:locations, 74, 4)
     end
 
     test "locations/1 filters by name" do
-      assert_filter(:locations, 18, {:name, "earth"})
+      assert_filter(:locations, 20, {:name, "earth"})
     end
 
     test "locations/1 filters by type" do
@@ -129,7 +129,7 @@ defmodule ExShlaTest do
     end
 
     test "locations/1 filters by dimension" do
-      assert_filter(:locations, 4, {:dimension, "c-137"})
+      assert_filter(:locations, 5, {:dimension, "c-137"})
     end
   end
 end
