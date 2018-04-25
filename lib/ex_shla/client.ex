@@ -26,7 +26,7 @@ defmodule ExShla.Client do
       plug(Tesla.Middleware.DecodeJson, engine_opts: [keys: :atoms])
 
       if Mix.env() == :dev, do: plug(Tesla.Middleware.Logger)
-      if Mix.env() == :test, do: plug(Tesla.Middleware.Replay, status: :all)
+      if Mix.env() == :test, do: plug(Tesla.Middleware.Replay, statuses: :all)
 
       plug(ExShla.Middleware.Filter, @filter)
 
