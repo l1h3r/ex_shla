@@ -21,7 +21,7 @@ Add `ex_shla` to your list of dependencies in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:ex_shla, "~> 0.1.0"}
+    {:ex_shla, "~> 0.1.5"}
   ]
 end
 ```
